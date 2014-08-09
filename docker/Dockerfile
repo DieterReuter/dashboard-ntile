@@ -4,16 +4,19 @@
 FROM ubuntu:14.04
 MAINTAINER Dieter Reuter <dieter.reuter@me.com>
 
+ENV DEBIAN_FRONTEND noninteractive
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main universe" > /etc/apt/sources.list
 RUN apt-get -yy update
 RUN apt-get -yy upgrade
 
 
+# install tools
+RUN apt-get -yy install wget curl git-core
+
 # install Dashing deps
 RUN apt-get -yy install ruby ruby-dev gem
 RUN apt-get -yy install bundler g++ make
 RUN apt-get -yy install nodejs
-RUN apt-get -yy install git-core
 
 # set default for gem/install to no-doc/no-ri
 RUN echo "gem: --no-document --no-rdoc --no-ri" | tee ~/.gemrc
