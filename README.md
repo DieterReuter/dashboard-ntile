@@ -30,6 +30,7 @@ curl -OL https://raw.githubusercontent.com/PareidoliaX/ntile_widget/master/dashb
 
 ## Start the Ntile Dashboard server
 ```bash
+bundle install
 dashing start
 ```
 On your host machine just start your web browser
