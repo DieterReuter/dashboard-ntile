@@ -10,8 +10,9 @@ RUN apt-get -yy update
 RUN apt-get -yy upgrade
 
 
-# install tools
-RUN apt-get -yy install wget curl git-core
+# install Supervisor and other tools
+RUN apt-get -yy install supervisor wget curl git-core
+
 
 # install Dashing deps
 RUN apt-get -yy install ruby ruby-dev gem
@@ -32,5 +33,13 @@ RUN cd /opt/application/dashboard-ntile; bundle install
 # use Dashing webport 3030/tcp
 EXPOSE 3030
 
-# launch the dashboard
-CMD ["/bin/sh", "-c", "cd /opt/application/dashboard-ntile && dashing start"]
+
+# copy our Supervisor service definition
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# use Supervisor Status webport 9001/tcp
+EXPOSE 9001
+
+
+# start Supervisor and all defined services
+CMD ["/usr/bin/supervisord"]
